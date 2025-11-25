@@ -8,13 +8,14 @@ import { fileURLToPath } from "node:url"
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin"
 import { playwright } from "@vitest/browser-playwright"
 import { defineProject } from "vitest/config"
+import tailwindcss from "@tailwindcss/vite"
 
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url))
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   test: {
     projects: [
       defineProject({
@@ -39,7 +40,7 @@ export default defineConfig({
           }),
         ],
         test: {
-          name: "sb",
+          name: "storybook",
           browser: {
             enabled: true,
             headless: true,

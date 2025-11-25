@@ -7,6 +7,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin"
 import { playwright } from "@vitest/browser-playwright"
+import { defineProject } from "vitest/config"
 
 const dirname =
   typeof __dirname !== "undefined" ? __dirname : path.dirname(fileURLToPath(import.meta.url))
@@ -16,6 +17,18 @@ export default defineConfig({
   plugins: [react()],
   test: {
     projects: [
+      defineProject({
+        test: {
+          name: "unit",
+          environment: "happy-dom",
+          setupFiles: ["./tests/setup.ts"],
+          environmentOptions: {
+            happyDOM: {
+              url: "http://localhost/",
+            },
+          },
+        },
+      }),
       {
         extends: true,
         plugins: [
@@ -26,7 +39,7 @@ export default defineConfig({
           }),
         ],
         test: {
-          name: "storybook",
+          name: "sb",
           browser: {
             enabled: true,
             headless: true,

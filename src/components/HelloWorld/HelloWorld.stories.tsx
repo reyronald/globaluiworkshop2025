@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
-import { HelloWorld } from "./HelloWorld";
+import { HelloWorld } from "./HelloWorld"
 
 const meta = {
   title: "Example/HelloWorld",
@@ -9,10 +9,10 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof HelloWorld>;
+} satisfies Meta<typeof HelloWorld>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-export const Default = {} satisfies Story;
+export const Default = {} satisfies Story

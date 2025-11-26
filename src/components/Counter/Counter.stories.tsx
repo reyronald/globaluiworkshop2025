@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
+import { Suspense } from "react"
 import { userEvent, within } from "@storybook/test"
+import { ErrorBoundary } from "react-error-boundary"
 
 import { Counter } from "./Counter"
 
@@ -9,6 +11,13 @@ const meta = {
   parameters: {
     layout: "centered",
   },
+  render: () => (
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Counter />
+      </Suspense>
+    </ErrorBoundary>
+  ),
 } satisfies Meta<typeof Counter>
 
 export default meta

@@ -14,7 +14,7 @@
     "test:unit": "vitest --project=unit",
     "test:sb": "vitest --project=storybook",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6005",
     "storybook:build": "storybook build",
     "prettier:check": "prettier . -c",
     "prettier:write": "prettier . -w"

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import { userEvent, within } from "@storybook/test"
 import { ErrorBoundary } from "react-error-boundary"
+import { delay, http, HttpResponse } from "msw"
 
+import { data } from "../../utils/data"
 import { Counter } from "./Counter"
 
 const meta = {
@@ -10,14 +12,25 @@ const meta = {
   component: Counter,
   parameters: {
     layout: "centered",
+    msw: {
+      handlers: [
+        http.get(`https://pokeapi.co/api/v2/pokemon/ditto`, () => {
+          return HttpResponse.json({ name: "Pikachu", weight: 60 })
+        }),
+      ],
+    },
   },
-  render: () => (
-    <ErrorBoundary fallback={<div>Something went wrong</div>}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Counter />
-      </Suspense>
-    </ErrorBoundary>
-  ),
+  render: () => {
+    useEffect(() => () => data.revalidate(), [])
+
+    return (
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Counter />
+        </Suspense>
+      </ErrorBoundary>
+    )
+  },
 } satisfies Meta<typeof Counter>
 
 export default meta
@@ -28,7 +41,7 @@ export const Default = {
   play: async (context) => {
     const canvas = within(context.canvasElement)
 
-    canvas.getByText("0")
+    await canvas.findByText("0")
 
     const incrementButton = canvas.getByRole("button", { name: "Increment" })
     await userEvent.click(incrementButton)
@@ -45,5 +58,32 @@ export const Default = {
     canvas.getByText("0")
 
     await userEvent.click(decrementButton)
+  },
+} satisfies Story
+
+export const Loading = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get(`https://pokeapi.co/api/v2/pokemon/ditto`, async () => {
+          await delay("infinite")
+        }),
+      ],
+    },
+  },
+} satisfies Story
+
+export const Error = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get(`https://pokeapi.co/api/v2/pokemon/ditto`, async () => {
+          return HttpResponse.json(
+            { error: "Internal Server Error" },
+            { status: 500, statusText: "Internal Server Error" },
+          )
+        }),
+      ],
+    },
   },
 } satisfies Story

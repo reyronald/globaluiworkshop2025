@@ -52,6 +52,8 @@
     "eslint-plugin-storybook": "^10.0.8",
     "globals": "^16.5.0",
     "happy-dom": "^20.0.10",
+    "msw": "^2.12.3",
+    "msw-storybook-addon": "^2.0.6",
     "playwright": "^1.57.0",
     "prettier": "^3.6.2",
     "storybook": "^10.0.8",
@@ -60,5 +62,10 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vitest": "^4.0.14"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

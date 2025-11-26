@@ -7,7 +7,10 @@ type Pokemon = {
 
 const fetchPokemon = async () => {
   const response = await fetch("https://pokeapi.co/api/v2/pokemon/ditto")
-  const data: Pokemon = await response.json()
+  const data: Pokemon | { error: string } = await response.json()
+  if ("error" in data) {
+    throw new Error(data.error)
+  }
   return data
 }
 

@@ -1,4 +1,5 @@
 import { use, useState } from "react"
+import { Link } from "react-router"
 import { data } from "../../utils/data"
 
 export function Counter() {
@@ -32,6 +33,12 @@ export function Counter() {
 
       <p>
         Your Pokemon is <span className="font-bold">{pokemon.name}</span> (weight: {pokemon.weight})
+      </p>
+
+      <p>
+        <Link to="/" className="text-blue-600 underline">
+          Go back home
+        </Link>
       </p>
     </div>
   )

@@ -3,6 +3,7 @@ import { Suspense, useEffect } from "react"
 import { userEvent, within } from "@storybook/test"
 import { ErrorBoundary } from "react-error-boundary"
 import { delay, http, HttpResponse } from "msw"
+import { createMemoryRouter, RouterProvider } from "react-router"
 
 import { data } from "../../utils/data"
 import { Counter } from "./Counter"
@@ -20,6 +21,17 @@ const meta = {
       ],
     },
   },
+  decorators: [
+    (Story) => {
+      return (
+        <RouterProvider
+          router={createMemoryRouter([{ path: "*", element: <Story /> }], {
+            initialEntries: ["/"],
+          })}
+        />
+      )
+    },
+  ],
   render: () => {
     useEffect(() => () => data.revalidate(), [])
 

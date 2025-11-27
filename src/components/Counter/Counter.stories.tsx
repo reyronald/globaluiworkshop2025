@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Suspense, useEffect } from "react"
-import { userEvent, within } from "@storybook/test"
-import { ErrorBoundary } from "react-error-boundary"
 import { delay, http, HttpResponse } from "msw"
+import { Suspense, useEffect } from "react"
+import { ErrorBoundary } from "react-error-boundary"
 import { createMemoryRouter, RouterProvider } from "react-router"
+import { userEvent, within } from "storybook/test"
+import { vi } from "vitest"
 
 import { data } from "../../utils/data"
 import { Counter } from "./Counter"
@@ -91,6 +92,12 @@ export const Loading = {
 } satisfies Story
 
 export const Error = {
+  beforeEach: async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementationOnce(() => {})
+    return () => {
+      consoleSpy.mockRestore()
+    }
+  },
   parameters: {
     msw: {
       handlers: [

@@ -17,6 +17,7 @@ const dirname =
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
+    reporters: [["tree"]],
     projects: [
       defineProject({
         test: {

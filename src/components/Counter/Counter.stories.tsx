@@ -20,6 +20,11 @@ const meta = {
         }),
       ],
     },
+    design: {
+      name: "Figma designs",
+      type: "figma",
+      url: "https://www.figma.com/file/YourDesignFile",
+    },
   },
   decorators: [
     (Story) => {

@@ -4,7 +4,6 @@ import { Suspense, useEffect } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 import { createMemoryRouter, RouterProvider } from "react-router"
 import { userEvent, within } from "storybook/test"
-import { vi } from "vitest"
 
 import { data } from "../../utils/data"
 import { Counter } from "./Counter"
@@ -93,9 +92,12 @@ export const Loading = {
 
 export const Error = {
   beforeEach: async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementationOnce(() => {})
-    return () => {
-      consoleSpy.mockRestore()
+    if (import.meta.env.MODE === "test") {
+      const vi = await import("vitest").then((mod) => mod.vi)
+      const consoleSpy = vi.spyOn(console, "error").mockImplementationOnce(() => {})
+      return () => {
+        consoleSpy.mockRestore()
+      }
     }
   },
   parameters: {

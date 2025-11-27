@@ -37,9 +37,10 @@ const meta = {
       )
     },
   ],
+  beforeEach: () => {
+    data.revalidate()
+  },
   render: () => {
-    useEffect(() => () => data.revalidate(), [])
-
     return (
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <Suspense fallback={<div>Loading...</div>}>
